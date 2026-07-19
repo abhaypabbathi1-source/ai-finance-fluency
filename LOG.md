@@ -19,3 +19,9 @@ Separate task:
 Combined if/for logic into functions that categorize and summarize loans.
 -Heavy debugging today: wrong interpreter, misspelled function name (loan_catagory), Indentation Error requiring a rebuild.
 -Deliberately practiced reading 3 error types: TypeError (missing argument), NameError (misspelled name, with Python's auto-suggestion), and a silent None result from a missing return statement
+## Day 4: loaded real data with Pandas
+-Installed pandas, downloaded real Lending Club Data from Kaggle
+- LOADED A 5,000 ROW SAMPLE WITH NROWS= to keep things fast.
+- Learned .head(), .shape, .columns to explore a 145-column dataset.
+-Filtered down to the columns that actually matter
+- Set up .gitignore so the large raw CSV never gets committed to GitHub
