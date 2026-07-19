@@ -25,3 +25,9 @@ Combined if/for logic into functions that categorize and summarize loans.
 - Learned .head(), .shape, .columns to explore a 145-column dataset.
 -Filtered down to the columns that actually matter
 - Set up .gitignore so the large raw CSV never gets committed to GitHub
+## Day 5
+-Learned git status, git log and git checkout
+Created a practice branch, deliberately deleted LOG.md contents and committed that mistake on the practice branch only
+Switched back to the main and confirmed it was completely untouched
+Deleted practice branch with git branch -D
+Big takeaway: branches let you make real,even committed mistakes in total safety.
