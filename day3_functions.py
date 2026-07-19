@@ -29,3 +29,19 @@ def loan_summary(amount,rate=0.055):
 for amount in loan_amounts:
     print(loan_summary(amount))
 
+
+
+
+
+
+    print(calculate_interest(10000))
+    print(loan_category(amount))
+
+def broken_function(amount):
+    total = amount * 2
+
+#notice: no return statement here
+
+result = broken_function(10000)
+print(result)  
+

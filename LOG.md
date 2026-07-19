@@ -12,3 +12,10 @@ Fix: always run via python3 filename.py typed directly into Terminal.
 - Combined if/for logic from Day 2 into functions that categorize and summarize loans
 - Debugged: wrong python interpreter (no f-string support), a misspelled function name (loan_catagory vs loan_category) traced to its actual definition, and an IndentationError requiring a full rebuild of one code block.
 -Lesson: always run with 'python3 filename.py' typed directly, and rebuild from scratch when indentation gets tangled rather than hunting spaces by eye
+
+Separate task:
+## Day 3
+-Learned functions: def, parameters, default values, return.
+Combined if/for logic into functions that categorize and summarize loans.
+-Heavy debugging today: wrong interpreter, misspelled function name (loan_catagory), Indentation Error requiring a rebuild.
+-Deliberately practiced reading 3 error types: TypeError (missing argument), NameError (misspelled name, with Python's auto-suggestion), and a silent None result from a missing return statement
