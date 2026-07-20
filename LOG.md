@@ -41,3 +41,10 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
   real-world credit pricing intuition.
 - Debugged a KeyError from a typo'd column name (loan_satus vs loan_status) —
   same typo pattern as Day 3's loan_catagory bug, now recognized instantly.
+  ## Day 7
+  Decision: dropping the emp_length column entirely rather than rows or filling, since employment length isn't relevant to this analysis and dropping the column preserves all 5,000 rows instead of losing 385 to missing data.
+  - Learned .isnull(), .sum(), .dropna(), .fillna() for handling missing data.
+- Checked missing % per column; found 7.7% missing in emp_length (only column with gaps).
+- Hit a real error: .fillna(median()) fails on emp_length because it's text, not numeric — learned to check dtype before choosing a fill strategy.
+- Decided to drop the emp_length column entirely (not just rows) because employment length isn't critical to this analysis, and dropping the column preserves all 5,000 rows instead of losing 385 to missing data.
+- Noted 7.7% is higher than the current 4.2% unemployment rate, but resisted assuming unemployment as the cause without verifying it in the data — flagged as an open question rather than a conclusion.
