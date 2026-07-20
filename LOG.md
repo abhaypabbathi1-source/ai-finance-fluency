@@ -31,3 +31,13 @@ Created a practice branch, deliberately deleted LOG.md contents and committed th
 Switched back to the main and confirmed it was completely untouched
 Deleted practice branch with git branch -D
 Big takeaway: branches let you make real,even committed mistakes in total safety.
+## Day 6
+- Learned filtering (boolean indexing with df[condition]), combining conditions
+  with & for "and" logic, sorting with .sort_values(), and grouping with .groupby().
+- Filtered loans over $20,000, then narrowed further to large loans with grade D.
+- Sorted the dataset by interest rate to find the highest-rate loans.
+- Used groupby to calculate average interest rate per credit grade — confirmed
+  riskier grades (D) carry higher average rates than safer grades (A/B/C), matching
+  real-world credit pricing intuition.
+- Debugged a KeyError from a typo'd column name (loan_satus vs loan_status) —
+  same typo pattern as Day 3's loan_catagory bug, now recognized instantly.
