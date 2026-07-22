@@ -48,3 +48,10 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Hit a real error: .fillna(median()) fails on emp_length because it's text, not numeric — learned to check dtype before choosing a fill strategy.
 - Decided to drop the emp_length column entirely (not just rows) because employment length isn't critical to this analysis, and dropping the column preserves all 5,000 rows instead of losing 385 to missing data.
 - Noted 7.7% is higher than the current 4.2% unemployment rate, but resisted assuming unemployment as the cause without verifying it in the data — flagged as an open question rather than a conclusion.
+## Day 8
+- Learned about pandas dtypes: object/str, int64, float64, datetime64, category.
+- Checked core.dtypes; confirmed loan_amnt/int_rate/annual_inc were already numeric, grade/loan_status/emp_length were str.
+- Searched df.columns for date-like fields; found issue_d (populated for all rows) vs. hardship/settlement dates (only for a small subset).
+- Converted issue_d from text ("Dec-2018") to real datetime64 using pd.to_datetime() — enables chronological sorting and date math.
+- Converted grade to an ordered categorical (A < B < C < ... < G) instead of plain text — ensures correct sort order for future charts (Day 10) and a meaningful numeric encoding for the model (Day 11+).
+- Key takeaway: correct dtypes aren't just cosmetic — wrong dtypes cause operations to silently do the wrong thing (e.g., alphabetical vs. risk-order sorting) rather than fail outright.
