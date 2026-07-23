@@ -32,3 +32,20 @@ print(len(messy), "->", len(home_clean))
 # rather than dropping the column entirely — imperfect (catches obvious cases only,
 # "Other" absorbs everything else), but preserves some signal instead of none.
 
+def bucket_title(title):
+    if pd.isna(title):
+        return "Unknown"
+    t = title.lower()
+    if "teach" in t or "professor" in t:
+        return "Education"
+    elif "nurse" in t or "rn" in t or "health" in t or "medical" in t:
+        return "Healthcare"
+    elif "manager" in t or "director" in t or "supervisor" in t:
+        return "Management"
+    elif "sales" in t:
+        return "Sales"
+    else:
+        return "Other"
+    
+messy["emp_title_bucket"] = messy["emp_title_clean"].apply(bucket_title)
+print(messy["emp_title_bucket"].value_counts())
