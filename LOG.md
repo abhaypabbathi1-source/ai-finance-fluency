@@ -55,3 +55,20 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Converted issue_d from text ("Dec-2018") to real datetime64 using pd.to_datetime() — enables chronological sorting and date math.
 - Converted grade to an ordered categorical (A < B < C < ... < G) instead of plain text — ensures correct sort order for future charts (Day 10) and a meaningful numeric encoding for the model (Day 11+).
 - Key takeaway: correct dtypes aren't just cosmetic — wrong dtypes cause operations to silently do the wrong thing (e.g., alphabetical vs. risk-order sorting) rather than fail outright.
+## Day 9
+- Learned that numbers get stored as text when bundled with symbols/units (e.g. "36 months"), and that text categories can hide inconsistencies (case, whitespace, semantic duplicates).
+- Cleaned term: stripped " months" text and cast to int (term_months) — now usable for filtering/math.
+- Checked home_ownership: found 4 categories (RENT, MORTGAGE, OWN, ANY), no case inconsistencies. Decided to drop the 10 ANY rows — too rare (0.2%) to be meaningful.
+- Checked emp_title: 2,927 unique values out of ~4,700 non-null rows — mostly free text, not a clean category set. Normalizing case/whitespace only reduced it to 2,471 (e.g. RN vs Registered Nurse still unmerged).
+- Decided to bucket emp_title into rough industries via keyword matching instead of dropping — imperfect, "Other" absorbs most rows, but preserves some signal.
+- Key takeaway: not every messy column deserves the same cleaning effort — knowing when a fix is "good enough" vs. not worth pursuing further is part of the skill.
+- Hit a recurring VS Code autocomplete bug duplicating quotes when editing string literals near existing quotes — worked around by rewriting lines with single quotes.
+## Day 10
+- Learned matplotlib/seaborn basics for charting; used plt.savefig() to export PNGs for the portfolio.
+- Discovered a sampling bias: the first 5000 rows of loans.csv were all recent (2018) loans, so none had resolved to Charged Off yet. Fixed by reading the full file and using .sample(5000, random_state=42) for a representative mix.
+- Defined the target variable: is_default (1 = Charged Off, 0 = Fully Paid), restricted to resolved loans only (excluded Current/Late/In Grace Period since they haven't finished their term).
+- Chart 1: default rate by grade — clean monotonic rise from ~7% (A) to ~64% (G), matching the ordered categorical set up on Day 8.
+- Chart 2: default rate by income band — declining trend from ~23% (<$40K) to ~14% ($100K+), noisier than grade.
+- Chart 3: default rate by term — 36 months ~16% vs 60 months ~29%, nearly double.
+- Hit a real bug: matplotlib carried state across plots (forgot to clear the figure), causing two charts to overlay. Fixed with plt.figure()/plt.close() around each plot.
+- Open question flagged for later (Day 15): are grade, income, and term independent signals, or partly confounded (e.g. lower grades disproportionately being 60-month loans)?
