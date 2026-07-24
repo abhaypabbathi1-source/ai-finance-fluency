@@ -72,3 +72,10 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Chart 3: default rate by term — 36 months ~16% vs 60 months ~29%, nearly double.
 - Hit a real bug: matplotlib carried state across plots (forgot to clear the figure), causing two charts to overlay. Fixed with plt.figure()/plt.close() around each plot.
 - Open question flagged for later (Day 15): are grade, income, and term independent signals, or partly confounded (e.g. lower grades disproportionately being 60-month loans)?
+## Day 11
+- Learned train/test split: evaluating a model on data it trained on gives artificially optimistic results.
+- Learned leakage: features only known after a loan resolves (total_rec_prncp, recoveries, last_pymnt_amnt, out_prncp) would let the model "cheat" by reading the outcome instead of predicting it.
+- Confirmed leakage empirically: total_rec_prncp averaged $14,348 for paid-off loans vs. $4,552 for defaults — a dead giveaway.
+- Fixed a silent bug: "Fullyl Paid" typo in isin() caused every Fully Paid row to be dropped without an error — reinforced that string-matching typos fail quietly, not loudly.
+- Built the actual split using sklearn's train_test_split with stratify=target: 2,323 train / 581 test rows, default rates nearly identical (19.24% vs 19.28%), confirming stratification worked.
+- Features used: loan_amnt, int_rate, grade, annual_inc, term_months — all known at loan issuance, none leaked from the outcome.
