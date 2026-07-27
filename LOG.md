@@ -86,3 +86,11 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Trained LogisticRegression on loan_amnt, int_rate, grade_num, annual_inc, term_months. Coefficients matched intuition: int_rate (+) and grade_num (+) push toward default, annual_inc (-) pushes away, term_months (+) slightly.
 - Test accuracy: 80.7%. Sanity-checked against a dumb "always predict no default" baseline: also 80.7% — identical. The model added zero measurable value on accuracy alone, almost certainly due to class imbalance (~19% default rate lets a lazy model hide behind a high accuracy number).
 - Key humbling takeaway: accuracy is a misleading metric here. Flagged for Day 13/14 to properly diagnose whether the model actually learned anything real.
+## Day 13
+- Learned why accuracy is misleading on imbalanced data: a model can score high just by favoring the majority class.
+- Fixed two typos: regax→regex in .str.replace(), and a stray period instead of comma in the train_test_split unpacking line.
+- Computed confusion matrix, precision, recall, and AUC on the Day 12 model.
+- Confusion matrix [[467,2],[110,2]]: model correctly identified 467/469 non-defaults, but only caught 2/112 actual defaults.
+- Recall: 1.8% — model is nearly blind to defaults despite 80.7% accuracy. Precision: 0.5, but on only 4 total "predicted default" calls, not meaningful yet.
+- AUC: 0.73 — meaningfully better than random (0.5), showing the model's predicted probabilities do rank risk correctly even though its default 0.5 threshold rarely gets crossed given the ~19% base rate.
+- Key takeaway: the model wasn't useless, it was miscalibrated — accuracy hid a real signal (confirmed by AUC) while also hiding a real failure (confirmed by recall). Threshold tuning is a likely next fix, flagged for later.
