@@ -79,3 +79,10 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Fixed a silent bug: "Fullyl Paid" typo in isin() caused every Fully Paid row to be dropped without an error — reinforced that string-matching typos fail quietly, not loudly.
 - Built the actual split using sklearn's train_test_split with stratify=target: 2,323 train / 581 test rows, default rates nearly identical (19.24% vs 19.28%), confirming stratification worked.
 - Features used: loan_amnt, int_rate, grade, annual_inc, term_months — all known at loan issuance, none leaked from the outcome.
+## Day 12
+- Learned logistic regression: predicts probability via a weighted sum of features passed through a sigmoid. Positive coefficients push toward default, negative push away.
+- Encoded grade as grade_num using the ordered categorical from Day 8 (A=0 ... G=6), since sklearn needs numeric input.
+- Hit two case-sensitivity bugs: "Charged off" vs "Charged Off" caused the same silent-filter-failure as Day 11's "Fullyl Paid" typo — reinforced that these bugs never crash, they just quietly produce wrong data.
+- Trained LogisticRegression on loan_amnt, int_rate, grade_num, annual_inc, term_months. Coefficients matched intuition: int_rate (+) and grade_num (+) push toward default, annual_inc (-) pushes away, term_months (+) slightly.
+- Test accuracy: 80.7%. Sanity-checked against a dumb "always predict no default" baseline: also 80.7% — identical. The model added zero measurable value on accuracy alone, almost certainly due to class imbalance (~19% default rate lets a lazy model hide behind a high accuracy number).
+- Key humbling takeaway: accuracy is a misleading metric here. Flagged for Day 13/14 to properly diagnose whether the model actually learned anything real.
