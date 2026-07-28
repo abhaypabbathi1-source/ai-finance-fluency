@@ -100,3 +100,16 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Tested lower thresholds down to 0.15: recall jumps to 77.7% but accuracy drops to 58.2% and precision to 28.5% — a real cost/recall trade-off, not a free win like 0.4 was.
 - Judgment call: picked 0.4 initially for balanced improvement, then reconsidered given asymmetric costs in lending (a missed default likely costs more than a false alarm) — concluded the "right" threshold depends on business costs not stated in the data itself.
 - Proposed a two-stage design: use a high-recall threshold to flag broadly, then a secondary metric/model to differentiate true risk from false positives within the flagged set — sets up Day 15 (feature importance) as the natural next step to build that differentiator.
+## Day 15
+- Learned that raw logistic regression coefficients aren't comparable across features on different scales — standardized features with StandardScaler (fit on train only, to avoid leakage) before ranking importance.
+- Scaled importance ranking: int_rate (0.292) and grade_num (0.286) nearly tied for most important, annual_inc (-0.105) a clear third, loan_amnt (0.083) and term_months (0.040) trailing. This differed meaningfully from the misleading raw-coefficient ranking in Day 12.
+- Investigated the int_rate/grade_num near-tie, tying back to Day 10's open question about confounded features: found 0.95 correlation between them — LendingClub sets interest rate largely based on the grade it assigns, so the two features encode almost the same risk signal twice (multicollinearity).
+- Decision: dropped grade_num, kept int_rate (continuous, more granular) as the primary risk signal.
+- Verified empirically: AUC only dropped from 0.7288 to 0.7262 (negligible) after removing grade_num, and int_rate's coefficient grew to absorb the removed signal (0.292 -> 0.557) — confirming the two features were largely redundant, not two independent risk signals.
+- Key takeaway: feature importance rankings can be unstable/misleading under multicollinearity; testing a simplification empirically (not just flagging the issue) is what makes the finding defensible.
+## Day 16
+- Refactored Days 6-15 into a single reproducible notebook (credit_risk_poc.ipynb) — the Month 1 deliverable.
+- Structured into clear sections: intro, data cleaning/target definition, features/split, model training, evaluation, threshold tuning, and a plain-English summary of strengths/limitations.
+- Reused the Day 15 simplified 4-feature model (dropped grade due to multicollinearity with int_rate).
+- Verified numbers are consistent with prior days: 2,904 resolved loans, AUC 0.726, threshold 0.4 as the chosen operating point (81.6% accuracy, 60.9% precision, 12.5% recall).
+- Wrote an honest limitations section: low recall even after tuning, small sample size, random (not chronological) train/test split, only 4 features, single model type tested so far.
