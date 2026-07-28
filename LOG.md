@@ -94,3 +94,9 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Recall: 1.8% — model is nearly blind to defaults despite 80.7% accuracy. Precision: 0.5, but on only 4 total "predicted default" calls, not meaningful yet.
 - AUC: 0.73 — meaningfully better than random (0.5), showing the model's predicted probabilities do rank risk correctly even though its default 0.5 threshold rarely gets crossed given the ~19% base rate.
 - Key takeaway: the model wasn't useless, it was miscalibrated — accuracy hid a real signal (confirmed by AUC) while also hiding a real failure (confirmed by recall). Threshold tuning is a likely next fix, flagged for later.
+## Day 14
+- Compared model AUC (0.729) against a mathematically-defined baseline AUC (0.5) — the honest comparison, since accuracy alone ties the baseline.
+- Tuned classification threshold instead of accepting the default 0.5 cutoff. Found threshold=0.4 beats baseline on every metric (accuracy 81.4%, precision 58.3%, recall 12.5%).
+- Tested lower thresholds down to 0.15: recall jumps to 77.7% but accuracy drops to 58.2% and precision to 28.5% — a real cost/recall trade-off, not a free win like 0.4 was.
+- Judgment call: picked 0.4 initially for balanced improvement, then reconsidered given asymmetric costs in lending (a missed default likely costs more than a false alarm) — concluded the "right" threshold depends on business costs not stated in the data itself.
+- Proposed a two-stage design: use a high-recall threshold to flag broadly, then a secondary metric/model to differentiate true risk from false positives within the flagged set — sets up Day 15 (feature importance) as the natural next step to build that differentiator.
