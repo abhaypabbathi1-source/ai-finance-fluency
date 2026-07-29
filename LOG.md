@@ -113,3 +113,14 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Reused the Day 15 simplified 4-feature model (dropped grade due to multicollinearity with int_rate).
 - Verified numbers are consistent with prior days: 2,904 resolved loans, AUC 0.726, threshold 0.4 as the chosen operating point (81.6% accuracy, 60.9% precision, 12.5% recall).
 - Wrote an honest limitations section: low recall even after tuning, small sample size, random (not chronological) train/test split, only 4 features, single model type tested so far.
+## Day 17
+- Learned random forest as an ensemble, non-linear alternative to logistic regression.
+- Trained RandomForestClassifier (max_depth=5 to limit overfitting) on the same train/test split as the logistic regression model.
+- Hit a bug: forgot to call roc_auc_score() with arguments, printed the function object itself instead of a number. Fixed by adding the (y_test, rf_proba) arguments.
+- Honest comparison: Random Forest AUC 0.716 vs. Logistic Regression AUC 0.726 — logistic regression slightly won. A more complex model isn't automatically better, especially with only 4 features and a modest dataset.
+- Cross-checked feature importance between both models: both independently rank int_rate > annual_inc > loan_amnt > term_months, strengthening confidence the ranking is real, not a modeling artifact.
+- Final decision: kept logistic regression as the deliverable model — comparable performance, but interpretable coefficients matter in lending given fair lending regulations (ECOA) that require explainable credit decisions. A random forest's black-box nature is a real cost, not just an inconvenience, in this domain.
+## Day 18
+- Rewrote README.md as the project's front door: problem statement, data description, method summary, results, and an honest limitations section.
+- Pulled together the full pipeline narrative (cleaning → target definition → leakage avoidance → feature selection → modeling → evaluation) into a readable summary for someone who hasn't seen the day-by-day process.
+- Linked LOG.md from the README for anyone who wants the detailed build history.
