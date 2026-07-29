@@ -124,3 +124,10 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Rewrote README.md as the project's front door: problem statement, data description, method summary, results, and an honest limitations section.
 - Pulled together the full pipeline narrative (cleaning → target definition → leakage avoidance → feature selection → modeling → evaluation) into a readable summary for someone who hasn't seen the day-by-day process.
 - Linked LOG.md from the README for anyone who wants the detailed build history.
+## Day 19
+- Ran an adversarial review of the whole project, ranking issues by severity: missing FICO/credit score, no cross-validation, random (not chronological) split, grade-vs-int_rate decision not tested both ways.
+- Attempted to add fico_range_low as a feature — discovered this dataset doesn't include any FICO-related columns at all. Reclassified this from "oversight to fix" to "genuine data limitation."
+- Added dti (debt-to-income ratio) instead — modest AUC improvement (0.726 -> 0.727), coefficient direction correct (higher dti -> higher default risk).
+- Ran 5-fold cross-validation on the updated model. Key finding: cross-validated AUC (mean 0.686, std 0.038, range 0.63-0.74) is meaningfully lower than the single-split AUC (0.727) — the original number was optimistic due to relying on one train/test split.
+- Updated the notebook's summary and limitations sections to report the honest cross-validated performance rather than the more flattering single-split number.
+- Key takeaway: adversarial review isn't just about fixing bugs, it's about testing whether your own reported numbers hold up under scrutiny — they didn't fully, and documenting that is more credible than not checking.
