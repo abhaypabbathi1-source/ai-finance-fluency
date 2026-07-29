@@ -49,3 +49,4 @@ def bucket_title(title):
     
 messy["emp_title_bucket"] = messy["emp_title_clean"].apply(bucket_title)
 print(messy["emp_title_bucket"].value_counts())
+  
