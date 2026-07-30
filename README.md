@@ -31,7 +31,7 @@ LendingClub loan-level data (`loans.csv`, ~2.26M rows, 145 columns). This proof 
 - **AUC**: 0.726 (logistic regression) vs. 0.716 (random forest) vs. 0.5 (random baseline).
 - **At threshold 0.4**: 81.6% accuracy, 60.9% precision, 12.5% recall — better than the default 0.5 threshold on every metric.
 - **Final model**: logistic regression, chosen over random forest for comparable performance plus interpretability — relevant given fair lending regulations (ECOA) that require explainable credit decisions.
-
+![Default rate rises with worse loan grade](default_by_grade.png)
 ## Limitations
 
 - Recall remains low (12.5% at the chosen threshold); catching more real defaults requires accepting substantially more false alarms, a trade-off that depends on real dollar costs not present in this dataset.
