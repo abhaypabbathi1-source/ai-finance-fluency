@@ -150,3 +150,8 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Best: learning_rate=0.01, max_depth=3, n_estimators=200 → AUC = 0.6834.
 - Still below logistic regression's 0.6868, but gap (0.0034) is within noise (~0.035-0.038 std).
 - Conclusion: model complexity is not the bottleneck — tuned boosting can't beat tuned logistic regression here. Ceiling is the feature set. Confirms direction for Week 6 (feature engineering).
+## Day 24
+- Plotted ROC curves for tuned logistic regression and tuned gradient boosting on the test split.
+- Curves nearly overlap across all thresholds — visual confirmation both models extract similar signal from the same features.
+- Single-split AUCs (0.729 log reg / 0.724 boosting) higher than CV means (0.687/0.683) — reinforces Day 21 lesson that single splits overstate performance.
+- Saved plot as roc_curves.png.
