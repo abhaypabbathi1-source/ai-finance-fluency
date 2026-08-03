@@ -131,3 +131,17 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Ran 5-fold cross-validation on the updated model. Key finding: cross-validated AUC (mean 0.686, std 0.038, range 0.63-0.74) is meaningfully lower than the single-split AUC (0.727) — the original number was optimistic due to relying on one train/test split.
 - Updated the notebook's summary and limitations sections to report the honest cross-validated performance rather than the more flattering single-split number.
 - Key takeaway: adversarial review isn't just about fixing bugs, it's about testing whether your own reported numbers hold up under scrutiny — they didn't fully, and documenting that is more credible than not checking.
+## Day 21
+- Learned k-fold cross-validation and why a single train/test split is unreliable.
+- Ran 5-fold CV on logistic regression: mean AUC = 0.687, std = 0.0385.
+- Fold scores ranged 0.631–0.739, showing meaningful split-to-split variance on 5000 rows.
+## Day 22
+- Ran GridSearchCV over C values [0.001, 0.01, 0.1, 1, 10, 100] with 5-fold CV.
+- Best C = 0.1, AUC = 0.6868 — vs default C=1 AUC = 0.6866. Essentially no difference.
+- All 6 C values scored within 0.0012 of each other, far inside yesterday's ~0.038 fold-to-fold noise.
+- Conclusion: regularization strength isn't the bottleneck for this model. Ceiling is likely the linear model itself or the feature set — worth testing with gradient boosting (Day 23).
+## Day 23
+- Trained GradientBoostingClassifier (default settings) with 5-fold CV.
+- Mean AUC = 0.666, std = 0.035 — worse than tuned logistic regression (0.687).
+- Boosting likely overfitting on 5000 rows with default complexity (100 trees, depth 3).
+- Updated hypothesis: ceiling may be the feature set, not model type — boosting didn't unlock better performance. Caveat: comparison isn't fully fair since boosting wasn't tuned like logistic regression was.
