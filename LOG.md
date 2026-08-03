@@ -145,3 +145,8 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Mean AUC = 0.666, std = 0.035 — worse than tuned logistic regression (0.687).
 - Boosting likely overfitting on 5000 rows with default complexity (100 trees, depth 3).
 - Updated hypothesis: ceiling may be the feature set, not model type — boosting didn't unlock better performance. Caveat: comparison isn't fully fair since boosting wasn't tuned like logistic regression was.
+## Day 23 (continued)
+- Tuned GradientBoostingClassifier with GridSearchCV over n_estimators/max_depth/learning_rate (27 combos, 5-fold CV).
+- Best: learning_rate=0.01, max_depth=3, n_estimators=200 → AUC = 0.6834.
+- Still below logistic regression's 0.6868, but gap (0.0034) is within noise (~0.035-0.038 std).
+- Conclusion: model complexity is not the bottleneck — tuned boosting can't beat tuned logistic regression here. Ceiling is the feature set. Confirms direction for Week 6 (feature engineering).

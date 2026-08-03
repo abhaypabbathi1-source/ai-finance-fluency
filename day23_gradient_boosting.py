@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, GridSearchCV
 
 # --- Same data prep as Day 21/22 ---
 df = pd.read_csv("loans.csv", low_memory=False)
@@ -29,3 +29,24 @@ scores = cross_val_score(model,features,target,cv=5, scoring ="roc_auc")
 print("AUC per fold:",scores)
 print("Mean AUC:", scores.mean())
 print("Std dev:", scores.std())
+
+# --- Tuning the boosting model, so the comparision to logistic regression is fair---
+
+param_grid = {
+    "n_estimators": [50,100,200],
+    "max_depth": [2,3,4],
+    "learning_rate": [0.01,0.1,0.2]
+
+}
+
+grid = GridSearchCV(
+    GradientBoostingClassifier(random_state=42),
+    param_grid,
+    cv=5,
+    scoring="roc_auc"
+
+)
+grid.fit(features,target)
+
+print("Best params:", grid.best_params_)
+print("Best mean AUC:", grid.best_score_)
