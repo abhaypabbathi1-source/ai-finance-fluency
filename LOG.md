@@ -155,3 +155,14 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Curves nearly overlap across all thresholds — visual confirmation both models extract similar signal from the same features.
 - Single-split AUCs (0.729 log reg / 0.724 boosting) higher than CV means (0.687/0.683) — reinforces Day 21 lesson that single splits overstate performance.
 - Saved plot as roc_curves.png.
+## Day 25
+- Plotted calibration curves for logistic regression and gradient boosting (10 bins).
+- Both models track the diagonal well in the low-to-moderate predicted probability range (0.0-0.3).
+- High predicted-probability bins (>0.4) show large deviations, especially logistic regression's 0.62 bucket hitting 100% actual default rate — likely a small-sample artifact given ~1000 test rows and default being the minority class, not necessarily true miscalibration.
+- Takeaway: both models are reasonably trustworthy in probability terms for typical loans; less confident conclusions can be drawn at the risky tail without more data.
+- Saved plot as calibration_curves.png.
+## Day 26
+- Built 3 derived features: loan_to_income, rate_x_amount, payment_to_income.
+- Compared original 5-feature set (AUC 0.6868) vs. original + engineered (AUC 0.6713) with 5-fold CV.
+- Engineered set performed slightly worse, though within noise band. Likely cause: new features are derived from existing columns (multicollinearity), not new information.
+- Lesson: engineered features must add genuinely new signal, not redundant combinations of what's already there — worth testing before assuming they help.
