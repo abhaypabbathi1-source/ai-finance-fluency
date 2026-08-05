@@ -166,3 +166,8 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Compared original 5-feature set (AUC 0.6868) vs. original + engineered (AUC 0.6713) with 5-fold CV.
 - Engineered set performed slightly worse, though within noise band. Likely cause: new features are derived from existing columns (multicollinearity), not new information.
 - Lesson: engineered features must add genuinely new signal, not redundant combinations of what's already there — worth testing before assuming they help.
+## Day 26 (continued)
+- Tested each engineered feature individually vs. original baseline (0.6868).
+- loan_to_income: 0.6867, rate_x_amount: 0.6852, payment_to_income: 0.6867 — all within noise, no individual feature helped.
+- Confirms: simple ratios of existing columns add no new information logistic regression couldn't already derive on its own.
+- Real lesson: useful features need genuinely new source data or non-linear signal, not arithmetic recombination of existing inputs. Sets up Day 27 — bringing in unused columns from the dataset (e.g. emp_length, home_ownership) rather than re-deriving from what's already there.
