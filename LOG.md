@@ -171,3 +171,9 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - loan_to_income: 0.6867, rate_x_amount: 0.6852, payment_to_income: 0.6867 — all within noise, no individual feature helped.
 - Confirms: simple ratios of existing columns add no new information logistic regression couldn't already derive on its own.
 - Real lesson: useful features need genuinely new source data or non-linear signal, not arithmetic recombination of existing inputs. Sets up Day 27 — bringing in unused columns from the dataset (e.g. emp_length, home_ownership) rather than re-deriving from what's already there.
+## Day 27
+- Encoded emp_length as ordered scale (0-10, missing as own category); fixed a data mismatch bug ("<1 year" vs "< 1 year" in emp_order list, causing -1 codes).
+- One-hot encoded home_ownership, collapsing rare ANY/NONE into OTHER.
+- Tested original features vs. original + emp_length + home_ownership: 0.6868 vs. 0.6835 — no meaningful improvement, within noise.
+- Fixed a ConvergenceWarning by scaling features with StandardScaler via make_pipeline — proper practice going forward for logistic regression with mixed-scale features.
+- Four straight days (22-27) of tuning, model type, and both derived + new raw features have failed to clear the ~0.687 ceiling — increasingly strong evidence this dataset/feature combination has a real predictive ceiling around there.
