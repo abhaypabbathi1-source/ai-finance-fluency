@@ -189,3 +189,13 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Explains the Week 5-6 ceiling: model effectively has ~1.5-2 independent useful signals, not 5. No tuning or feature engineering could push past that with this little real information.
 - Technical note: nrows-based fast reads introduced a real bug — the file appears ordered such that small row counts (5K, 50K) contain almost no resolved loans. Needed 500K rows to get a reliable resolved sample (505 rows) with both classes present. Worth remembering for future data loading.
 - Sample caveat: only 505 resolved loans in this run vs. ~2,900 in Days 21-28's full-dataset random sample — smaller, less reliable basis for these particular numbers, though the qualitative finding (int_rate/grade_num dominate) is consistent with intuition and prior work.
+## Day 30
+- Rebuilt the full pipeline from scratch as a single clean script: load → prep → scale → train → evaluate, using make_pipeline and cross_val_score.
+- Trimmed feature set to int_rate, grade_num, annual_inc based on Day 29 permutation importance (dropped loan_amnt, term_months — near-zero importance).
+- Result: AUC 0.6866, virtually identical to Day 21's 5-feature baseline (0.6866) — confirms the dropped features truly weren't contributing.
+- Hit the same nrows-ordering bug from Day 29 again; fixed by reverting to full-file read + .sample() for correctness over speed on this one-time script.
+- day30_pipeline.py now serves as the canonical, evidence-backed model script going forward — replaces the accumulated day21-29 files as the reference implementation.
+## Day 31
+- Loaded 5000-row sample into a SQLite database (loans.db) via pandas .to_sql().
+- Wrote first SQL queries: SELECT/WHERE to filter defaulted loans (559 found, matches Day 28), and ORDER BY/LIMIT to find top 5 highest interest rate loans (all Grade G, ~30-31%).
+- Learned the pd.read_sql() pattern for bridging SQL queries back into pandas DataFrames.
