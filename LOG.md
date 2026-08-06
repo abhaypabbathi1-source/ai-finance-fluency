@@ -177,3 +177,15 @@ Big takeaway: branches let you make real,even committed mistakes in total safety
 - Tested original features vs. original + emp_length + home_ownership: 0.6868 vs. 0.6835 — no meaningful improvement, within noise.
 - Fixed a ConvergenceWarning by scaling features with StandardScaler via make_pipeline — proper practice going forward for logistic regression with mixed-scale features.
 - Four straight days (22-27) of tuning, model type, and both derived + new raw features have failed to clear the ~0.687 ceiling — increasingly strong evidence this dataset/feature combination has a real predictive ceiling around there.
+## Day 28
+- Checked class balance: 19.2% default rate (559/2904) — real but moderate imbalance.
+- Tested class_weight="balanced" vs. default: 0.6872 vs 0.6869 — no meaningful difference, imbalance isn't suppressing AUC.
+- Re-ran full pipeline on a different random sample (random_state=7, 5000 rows): AUC = 0.700 vs original 0.687 — consistent, same ballpark, confirming the ~0.69 ceiling isn't specific to one sample.
+- Conclusion: across 5 interventions (tuning, model type, derived features, new raw features, class weighting) and 2 independent samples, AUC consistently lands ~0.69-0.70. This is very likely close to this feature set's real predictive ceiling, not a fixable artifact.
+- Open question for later: does this hold with more rows (20,000+) or a different dataset entirely — untested whether the ceiling is a feature limitation or a sample-size limitation.
+## Day 29
+- Computed correlation matrix: int_rate and grade_num correlated at 0.97 — near-duplicate information (LendingClub sets rate from grade).
+- Ran permutation importance on 500,000-row sample (505 resolved loans after filtering): int_rate (0.057) and grade_num (0.030) dominate; annual_inc contributes a little (0.006); loan_amnt and term_months contribute ~nothing (near-zero/negative).
+- Explains the Week 5-6 ceiling: model effectively has ~1.5-2 independent useful signals, not 5. No tuning or feature engineering could push past that with this little real information.
+- Technical note: nrows-based fast reads introduced a real bug — the file appears ordered such that small row counts (5K, 50K) contain almost no resolved loans. Needed 500K rows to get a reliable resolved sample (505 rows) with both classes present. Worth remembering for future data loading.
+- Sample caveat: only 505 resolved loans in this run vs. ~2,900 in Days 21-28's full-dataset random sample — smaller, less reliable basis for these particular numbers, though the qualitative finding (int_rate/grade_num dominate) is consistent with intuition and prior work.
